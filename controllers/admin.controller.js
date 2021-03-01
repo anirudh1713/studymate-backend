@@ -12,7 +12,7 @@ const knex = require('../db/db');
 
 const createAdmin = async (req, res) => {
   try {
-    const { name, email, phone_number, password } = req.body;
+    const { name, email, phoneNumber, password } = req.body;
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     //Create new admin
@@ -20,7 +20,7 @@ const createAdmin = async (req, res) => {
       name,
       email,
       password: encryptedPassword,
-      phone_number,
+      phone_number: phoneNumber,
     }).returning('*');
 
     //If nothing returned from query

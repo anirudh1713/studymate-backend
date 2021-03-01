@@ -1,29 +1,33 @@
 const express = require('express');
-const Joi = require('joi');
 
 const { adminController } = require('../controllers');
 const validate = require('../middlewares/validate');
+const {
+  adminValidation, 
+  departmentValidation,
+  studentValidation,
+ } = require('../validations/index');
 
 const router = express.Router();
 
 router
   .route('/signup')
-  .post(adminController.createAdmin);
+  .post(validate(adminValidation.createAdmin), adminController.createAdmin);
 
 router
   .route('/login')
-  .post(adminController.loginAdmin);
+  .post(validate(adminValidation.loginAdmin), adminController.loginAdmin);
 
 router
   .route('/department')
-  .post(adminController.createDepartment);
+  .post(validate(departmentValidation.createDepartment), adminController.createDepartment);
 
 router
   .route('/student/signup')
-  .post(adminController.createStudent);
+  .post(validate(studentValidation.createStudent), adminController.createStudent);
 
 router
   .route('/student/login')
-  .post(adminController.loginStudent);
+  .post(validate(studentValidation.loginStudent), adminController.loginStudent);
 
 module.exports = router;

@@ -1,23 +1,19 @@
-const knex = require('../db/db');
+const { ValidationError } = require('Joi');
 
 const apiResponses = require('../utils/apiResponses');
 
-const validate = (schema, arr) => async (req, res, next) => {
+const validate = (schema) => async (req, res, next) => {
   try {
-    const { value, error } = schema.validate(req.body);
-
+    const { value, error } = await schema.validateAsync(req.body);
     if (error) {
       return apiResponses.errorResponse(res, error.message, 400);
     }
 
-    for (const item of arr) {
-      const data = await knex(item.table).where({ [item.prop]: req.body[item.prop] }).select('*');
-      if (data.length >= 1) {
-        return apiResponses.errorResponse(res, `${item.prop} already in use.`, 400);
-      }
-    }
     next();
   } catch (error) {
+    if (error instanceof ValidationError) {
+      return apiResponses.errorResponse(res, error.message, 400);
+    }
     return apiResponses.errorResponse(res, error.message, 500);
   }
 };
