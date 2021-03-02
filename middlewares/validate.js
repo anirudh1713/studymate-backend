@@ -1,4 +1,4 @@
-const { ValidationError } = require('Joi');
+const { isError } = require('Joi');
 
 const apiResponses = require('../utils/apiResponses');
 
@@ -11,7 +11,7 @@ const validate = (schema) => async (req, res, next) => {
 
     next();
   } catch (error) {
-    if (error instanceof ValidationError) {
+    if (isError(error) || error.name === 'ValidationError') {
       return apiResponses.errorResponse(res, error.message, 400);
     }
     return apiResponses.errorResponse(res, error.message, 500);
