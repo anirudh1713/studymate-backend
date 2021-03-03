@@ -1,4 +1,4 @@
-const { isError } = require('Joi');
+const { isError } = require('joi');
 
 const apiResponses = require('../utils/apiResponses');
 
