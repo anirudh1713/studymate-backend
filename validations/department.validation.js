@@ -1,4 +1,3 @@
-const { validationResult } = require('express-validator');
 const Joi = require('joi');
 
 const { duplicate } = require('../utils/db');

@@ -1,4 +1,4 @@
-const { ValidationError } = require('Joi');
+const { ValidationError } = require('joi');
 
 const knex = require('../db/db');
 
