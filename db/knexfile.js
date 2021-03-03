@@ -1,11 +1,13 @@
 require('dotenv').config({ path: '../.env' });
 
+const test = process.env.NODE_ENV === 'test';
+
 module.exports = {
   development: {
     client: 'pg',
     connection: {
       host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
+      database: test ? process.env.TEST_DB_NAME : process.env.DB_NAME,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       port: process.env.DB_PORT,
@@ -17,7 +19,6 @@ module.exports = {
     migrations: {
       tableName: 'knex_migrations'
     },
-    acquireConnectionTimeout: 5000,
   },
   onUpdateTrigger: table => `
     CREATE TRIGGER ${table}_updated_at

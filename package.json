@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test knex --knexfile=./db/knexfile.js migrate:latest --env development && jest --detectOpenHandles -i"
   },
   "keywords": [],
   "author": "",
