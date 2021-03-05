@@ -1,17 +1,25 @@
 const request = require('supertest');
+const sinon = require('sinon');
 
 const knex = require('../db/db');
-const app = require('../app');
+let app;
+let auth;
 
 const DEPARTMENT_ROUTE = '/api/v1/department';
 
 beforeAll(async (done) => {
     await knex('departments').delete();
+    auth = require('../middlewares/auth');
+    sinon.stub(auth, "auth").callsFake((role) => (req, res, next) => {
+        return next();
+    });
+    app = require('../app');
     done();
 });
 
 afterAll(async (done) => {
     await knex.destroy();
+    sinon.restore();
     done();
 });
 

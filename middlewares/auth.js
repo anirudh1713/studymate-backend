@@ -42,4 +42,6 @@ const auth = (role) => async (req, res,next) => {
     }
 };
 
-module.exports = auth;
+module.exports = {
+    auth,
+};

@@ -1,7 +1,10 @@
+const sinon = require('sinon');
 const request = require('supertest');
 
 const knex = require('../db/db');
-const app = require('../app');
+
+let app;
+let auth;
 
 const FACULTY_ROUTE = '/api/v1/faculty';
 
@@ -16,11 +19,17 @@ beforeAll(async (done) => {
         tution_fee: 32500,
     }).returning('*');
     id = dept[0].id;
+    auth = require('../middlewares/auth');
+    sinon.stub(auth, "auth").callsFake((role) => (req, res, next) => {
+        return next();
+    });
+    app = require('../app');
     done();
 });
 
 afterAll(async (done) => {
     await knex.destroy();
+    sinon.restore();
     done();
 });
 
