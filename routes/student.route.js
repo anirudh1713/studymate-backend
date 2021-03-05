@@ -1,14 +1,17 @@
 const express = require('express');
 
+const { auth } = require('../middlewares/auth');
 const { studentController } = require('../controllers');
 const validate = require('../middlewares/validate');
 const { studentValidation } = require('../validations');
+
+const ROLES = require('../ROLES');
 
 const router = express.Router();
 
 router
     .route('/signup')
-    .post(validate(studentValidation.createStudent), studentController.createStudent);
+    .post(auth(ROLES.admin), validate(studentValidation.createStudent), studentController.createStudent);
 
 router
     .route('/login')
