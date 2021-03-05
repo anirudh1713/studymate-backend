@@ -38,15 +38,18 @@ jobs:
 
   build:
     needs: test
-    
+
     runs-on: ubuntu-latest
 
     steps:
       - name: Login to DockerHub
         uses: docker/login-action@v1 
+        env:
+          DOCKER_USER: ${{ secrets.DOCKE_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         with:
-          username: ${{ secrets.DOCKE_USER }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
