@@ -25,7 +25,6 @@ const createFaculty = async (req, res) => {
       };
 
       if (departmentId) {
-        console.log(departmentId);
         facultyToCreate.department_id = departmentId;
       }
 
