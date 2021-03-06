@@ -17,14 +17,20 @@ const createFaculty = async (req, res) => {
       const password = '112233';
       const encryptedPassword = await bcrypt.hash(password, 10);
 
-      //Create new faculty
-      let faculty = await knex('faculties').insert({
+      let facultyToCreate = {
         name,
         email,
         password: encryptedPassword,
         phone_number: phoneNumber,
-        department_id: departmentId,
-      }).returning('*');
+      };
+
+      if (departmentId) {
+        console.log(departmentId);
+        facultyToCreate.department_id = departmentId;
+      }
+
+      //Create new faculty
+      let faculty = await knex('faculties').insert(facultyToCreate).returning('*');
   
       //If nothing returned from query
       if (faculty.length !== 1) {

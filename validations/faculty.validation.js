@@ -10,8 +10,10 @@ const createFaculty = Joi.object({
     phoneNumber: Joi.string().max(15).required().regex(/^[0-9]*$/).external(async value => {
         await duplicate('faculties', 'phone_number', value);
     }),
-    departmentId: Joi.number().required().external(async value => {
-        await exists('departments', 'id', value);
+    departmentId: Joi.number().external(async value => {
+        if (value) {
+            await exists('departments', 'id', value);
+        }
     }),
 });
 
