@@ -17,4 +17,8 @@ router
     .route('/login')
     .post(validate(facultyValidation.loginFaculty), facultyController.loginFaculty);
 
+router
+    .route('/unassigned')
+    .get(auth(ROLES.admin), facultyController.getUnassignedFaculty);
+
 module.exports = router;
