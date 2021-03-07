@@ -11,6 +11,7 @@ const router = express.Router();
 
 router
     .route('/')
-    .post(auth(ROLES.admin), validate(departmentValidation.createDepartment), departmentController.createDepartment);
+    .post(auth(ROLES.admin), validate(departmentValidation.createDepartment), departmentController.createDepartment)
+    .get(departmentController.getDepartments);
 
 module.exports = router;
