@@ -84,8 +84,21 @@ const loginFaculty = async (req, res) => {
       apiResponses.errorResponse(res, error.message, 500);
     }
 };
+
+const getUnassignedFaculty = async (req, res) => {
+  try {
+    const faculties = await knex('faculties').select('*').where({ department_id: null });
+    if (!faculties.length >= 1) {
+      return apiResponses.errorResponse(res, 'No faculties without department.', 400);
+    }
+    apiResponses.successResponse(res, 'Faculties found.', 200);
+  } catch (error) {
+    apiResponses.errorResponse(res, error.message, 500);
+  }
+}
   
 module.exports = {  
     createFaculty,
     loginFaculty,
+    getUnassignedFaculty,
 }
