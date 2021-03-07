@@ -37,6 +37,21 @@ const createDepartment = async (req, res) => {
     }
 };
 
+const getDepartments = async (req, res) => {
+  try {
+    const departments = await knex('departments').select('*');
+
+    if (!departments.length >= 1) {
+      return apiResponses.errorResponse(res, 'No departments found.', 404);
+    }
+
+    apiResponses.successResponse(res, 'Departments found.', { departments }, 200);
+  } catch (error) {
+    apiResponses.errorResponse(res, error.message, 500);
+  }
+};
+
 module.exports = {
     createDepartment,
+    getDepartments,
 }
