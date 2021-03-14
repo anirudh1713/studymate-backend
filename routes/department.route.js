@@ -10,8 +10,12 @@ const ROLES = require('../ROLES');
 const router = express.Router();
 
 router
-    .route('/')
-    .post(auth(ROLES.admin), validate(departmentValidation.createDepartment), departmentController.createDepartment)
-    .get(departmentController.getDepartments);
+  .route('/')
+  .post(
+    auth(ROLES.admin),
+    validate(departmentValidation.createDepartment),
+    departmentController.createDepartment,
+  )
+  .get(departmentController.getDepartments);
 
 module.exports = router;

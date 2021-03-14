@@ -10,15 +10,19 @@ const ROLES = require('../ROLES');
 const router = express.Router();
 
 router
-    .route('/signup')
-    .post(auth(ROLES.admin), validate(facultyValidation.createFaculty), facultyController.createFaculty);
+  .route('/signup')
+  .post(
+    auth(ROLES.admin),
+    validate(facultyValidation.createFaculty),
+    facultyController.createFaculty,
+  );
 
 router
-    .route('/login')
-    .post(validate(facultyValidation.loginFaculty), facultyController.loginFaculty);
+  .route('/login')
+  .post(validate(facultyValidation.loginFaculty), facultyController.loginFaculty);
 
 router
-    .route('/unassigned')
-    .get(auth(ROLES.admin), facultyController.getUnassignedFaculty);
+  .route('/unassigned')
+  .get(auth(ROLES.admin), facultyController.getUnassignedFaculty);
 
 module.exports = router;
