@@ -38,14 +38,14 @@ const createStudent = async (req, res) => {
     [student] = student;
 
     // Generate access & refresh token
-    const accessToken = generateAccessToken(student.id, ROLES.student);
-    const refreshToken = generateRefreshToken(student.id, ROLES.student);
+    const access_token = generateAccessToken(student.id, ROLES.student);
+    const refresh_token = generateRefreshToken(student.id, ROLES.student);
 
     // Data to be reutrned
     const data = {
       student,
-      accessToken,
-      refreshToken,
+      access_token,
+      refresh_token,
     };
 
     return apiResponses.successResponse(res, 'Student created.', data, 201);

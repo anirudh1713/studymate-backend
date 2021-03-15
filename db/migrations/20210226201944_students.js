@@ -13,7 +13,7 @@ exports.up = function(knex) {
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
     t.timestamps(true, true);
-  }).then(() => knex.raw(onUpdateTrigger('students')));;
+  }).then(() => knex.raw(onUpdateTrigger('students')));
 };
 
 exports.down = function(knex) {

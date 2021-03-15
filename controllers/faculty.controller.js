@@ -40,14 +40,14 @@ const createFaculty = async (req, res) => {
     [faculty] = faculty;
 
     // Generate access & refresh token
-    const accessToken = generateAccessToken(faculty.id, ROLES.faculty);
-    const refreshToken = generateRefreshToken(faculty.id, ROLES.faculty);
+    const access_token = generateAccessToken(faculty.id, ROLES.faculty);
+    const refresh_token = generateRefreshToken(faculty.id, ROLES.faculty);
 
     // Data to be reutrned
     const data = {
       faculty,
-      accessToken,
-      refreshToken,
+      access_token,
+      refresh_token,
     };
 
     return apiResponses.successResponse(res, 'Faculty created.', data, 201);

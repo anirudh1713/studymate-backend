@@ -31,14 +31,14 @@ const createAdmin = async (req, res) => {
     [admin] = admin;
 
     // Generate access & refresh token
-    const accessToken = generateAccessToken(admin.id, ROLES.admin);
-    const refreshToken = generateRefreshToken(admin.id, ROLES.admin);
+    const access_token = generateAccessToken(admin.id, ROLES.admin);
+    const refresh_token = generateRefreshToken(admin.id, ROLES.admin);
 
     // Data to be returned
     const data = {
       admin,
-      accessToken,
-      refreshToken,
+      access_token,
+      refresh_token,
     };
 
     return apiResponses.successResponse(res, 'Admin created.', data, 201);
@@ -64,13 +64,13 @@ const loginAdmin = async (req, res) => {
       return apiResponses.errorResponse(res, 'Invalid credentials', 400);
     }
 
-    const accessToken = generateAccessToken(admin.id, ROLES.admin);
-    const refreshToken = generateRefreshToken(admin.id, ROLES.admin);
+    const access_token = generateAccessToken(admin.id, ROLES.admin);
+    const refresh_token = generateRefreshToken(admin.id, ROLES.admin);
 
     const data = {
       admin,
-      accessToken,
-      refreshToken,
+      access_token,
+      refresh_token,
     };
     return apiResponses.successResponse(res, 'Successfully loggedin.', data, 200);
   } catch (error) {
