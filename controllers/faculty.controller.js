@@ -40,14 +40,14 @@ const createFaculty = async (req, res) => {
     [faculty] = faculty;
 
     // Generate access & refresh token
-    const access_token = generateAccessToken(faculty.id, ROLES.faculty);
-    const refresh_token = generateRefreshToken(faculty.id, ROLES.faculty);
+    const accessToken = generateAccessToken(faculty.id, ROLES.faculty);
+    const refreshToken = generateRefreshToken(faculty.id, ROLES.faculty);
 
     // Data to be reutrned
     const data = {
       faculty,
-      access_token,
-      refresh_token,
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
 
     return apiResponses.successResponse(res, 'Faculty created.', data, 201);
@@ -78,8 +78,8 @@ const loginFaculty = async (req, res) => {
 
     const data = {
       faculty,
-      accessToken,
-      refreshToken,
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
     return apiResponses.successResponse(res, 'Successfully loggedin.', data, 200);
   } catch (error) {

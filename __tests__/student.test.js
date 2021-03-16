@@ -110,8 +110,8 @@ describe('Test student endpoints', () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe(1);
-    expect(res.body.data).toHaveProperty('accessToken');
-    expect(res.body.data).toHaveProperty('refreshToken');
+    expect(res.body.data).toHaveProperty('access_token');
+    expect(res.body.data).toHaveProperty('refresh_token');
     done();
   });
 

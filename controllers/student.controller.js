@@ -38,14 +38,14 @@ const createStudent = async (req, res) => {
     [student] = student;
 
     // Generate access & refresh token
-    const access_token = generateAccessToken(student.id, ROLES.student);
-    const refresh_token = generateRefreshToken(student.id, ROLES.student);
+    const accessToken = generateAccessToken(student.id, ROLES.student);
+    const refreshToken = generateRefreshToken(student.id, ROLES.student);
 
-    // Data to be reutrned
+    // Data to be returned
     const data = {
       student,
-      access_token,
-      refresh_token,
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
 
     return apiResponses.successResponse(res, 'Student created.', data, 201);
@@ -75,8 +75,8 @@ const loginStudent = async (req, res) => {
 
     const data = {
       student,
-      accessToken,
-      refreshToken,
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
 
     return apiResponses.successResponse(res, 'Loggedin successfully.', data, 200);
