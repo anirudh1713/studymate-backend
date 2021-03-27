@@ -5,6 +5,8 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-await-in-loop': 'off',
     'global-require': 'warn',
+    camelcase: 'off',
+    'func-names': 'off',
   },
   overrides: [
     {
