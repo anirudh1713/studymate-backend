@@ -6,6 +6,7 @@ const { duplicate } = require('../utils/db');
 
 const createDepartment = Joi.object({
   name: Joi.string().required(),
+  terms: Joi.number().positive().required(),
   code: Joi.number().required().external(async (value) => {
     await duplicate('departments', 'code', value);
   }),
@@ -13,7 +14,7 @@ const createDepartment = Joi.object({
   faculties: Joi.array().items(
     Joi.object({
       facultyId: Joi.number().required(),
-    }).required(),
+    }).unknown(),
   ).external(async (value) => {
     if (value && value.length >= 1) {
       for (const faculty of value) {

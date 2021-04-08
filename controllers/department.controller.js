@@ -4,13 +4,16 @@ const knex = require('../db/db');
 const createDepartment = async (req, res) => {
   try {
     const {
-      name, code, tutionFee, faculties,
+      name, code, tutionFee, faculties, terms,
     } = req.body;
-    let department = await knex('departments').insert({
-      name,
-      code,
-      tution_fee: tutionFee,
-    }).returning('*');
+    let department = await knex('departments')
+      .insert({
+        name,
+        code,
+        tution_fee: tutionFee,
+        terms,
+      })
+      .returning('*');
 
     if (department.length !== 1) {
       return apiResponses.errorResponse(res, 'Something went wrong.', 400);
@@ -20,7 +23,10 @@ const createDepartment = async (req, res) => {
     const facultiesOfDept = [];
     if (faculties && faculties.length >= 1) {
       for (const faculty of faculties) {
-        const fac = await knex('faculties').update({ department_id: department.id }).where({ id: faculty.facultyId }).returning('*');
+        const fac = await knex('faculties')
+          .update({ department_id: department.id })
+          .where({ id: faculty.facultyId })
+          .returning('*');
         if (fac.length !== 1) {
           await knex('departments').where({ id: department.id }).delete();
           return apiResponses.errorResponse(res, 'Failed to create and map faculties.', 500);
@@ -41,7 +47,8 @@ const createDepartment = async (req, res) => {
 
 const getDepartments = async (req, res) => {
   try {
-    const departments = await knex('departments').select('*');
+    const departments = await knex('departments')
+      .select('*');
 
     if (!departments.length >= 1) {
       return apiResponses.errorResponse(res, 'No departments found.', 404);
