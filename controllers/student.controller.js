@@ -12,11 +12,7 @@ const knex = require('../db/db');
 const createStudent = async (req, res) => {
   try {
     const {
-      name,
-      email,
-      phoneNumber,
-      enrollmentNumber,
-      departmentId,
+      name, email, phoneNumber, enrollmentNumber, departmentId,
     } = req.body;
 
     // TODO - auto generate password and send to student email.
