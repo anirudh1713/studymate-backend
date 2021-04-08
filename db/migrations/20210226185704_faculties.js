@@ -1,7 +1,7 @@
-const { onUpdateTrigger } = require("../knexfile");
+const { onUpdateTrigger } = require('../knexfile');
 
-exports.up = function(knex) {
-  return knex.schema.createTable('faculties', t => {
+exports.up = function (knex) {
+  return knex.schema.createTable('faculties', (t) => {
     t.increments('id').primary();
     t.string('name').notNullable();
     t.string('email').notNullable().unique();
@@ -15,6 +15,6 @@ exports.up = function(knex) {
   }).then(() => knex.raw(onUpdateTrigger('faculties')));
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.dropTable('faculties');
 };
