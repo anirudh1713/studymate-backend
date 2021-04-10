@@ -13,13 +13,13 @@ const createDepartment = Joi.object({
   tutionFee: Joi.number().required(),
   faculties: Joi.array().items(
     Joi.object({
-      facultyId: Joi.number().required(),
+      id: Joi.number().required(),
     }).unknown(),
   ).external(async (value) => {
     if (value && value.length >= 1) {
       for (const faculty of value) {
         const fac = await knex('faculties').select('*').where({
-          id: faculty.facultyId,
+          id: faculty.id,
           department_id: null,
         });
         if (fac.length !== 1) {

@@ -34,7 +34,7 @@ const createDepartment = async (req, res) => {
       for (const faculty of faculties) {
         const fac = await knex('faculties')
           .update({ department_id: department.id })
-          .where({ id: faculty.facultyId })
+          .where({ id: faculty.id })
           .returning('*');
         if (fac.length !== 1) {
           await knex('departments').where({ id: department.id }).delete();

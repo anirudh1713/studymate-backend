@@ -93,7 +93,7 @@ const getUnassignedFaculty = async (req, res) => {
     if (!faculties.length >= 1) {
       return apiResponses.errorResponse(res, 'No faculties without department.', 400);
     }
-    return apiResponses.successResponse(res, 'Faculties found.', 200);
+    return apiResponses.successResponse(res, 'Faculties found.', { faculties }, 200);
   } catch (error) {
     return apiResponses.errorResponse(res, error.message, 500);
   }
