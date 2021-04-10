@@ -17,6 +17,9 @@ const createStudent = Joi.object({
   departmentId: Joi.number().required().external(async (value) => {
     await exists('departments', 'id', value);
   }),
+  termId: Joi.number().required().external(async (value) => {
+    await exists('terms', 'id', value);
+  }),
 });
 
 const loginStudent = Joi.object({

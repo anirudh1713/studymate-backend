@@ -11,7 +11,7 @@ const createFaculty = Joi.object({
     .external(async (value) => {
       await duplicate('faculties', 'phone_number', value);
     }),
-  departmentId: Joi.number().external(async (value) => {
+  departmentId: Joi.number().allow(null).external(async (value) => {
     if (value) {
       await exists('departments', 'id', value);
     }

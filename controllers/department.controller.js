@@ -20,6 +20,15 @@ const createDepartment = async (req, res) => {
     }
     [department] = department;
 
+    const allTerms = department.terms;
+    const allPromises = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 1; i <= allTerms; i++) {
+      const term = await knex('terms').insert({ name: `${i}`, department_id: department.id, duration: 6 });
+      allPromises.push(term);
+    }
+    await Promise.all(allPromises);
+
     const facultiesOfDept = [];
     if (faculties && faculties.length >= 1) {
       for (const faculty of faculties) {
