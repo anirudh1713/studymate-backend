@@ -12,6 +12,10 @@ exports.up = function (knex) {
       .references('departments.id')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
+    t.integer('term_id')
+      .references('terms.id')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
     t.timestamps(true, true);
   }).then(() => knex.raw(onUpdateTrigger('students')));
 };
