@@ -99,8 +99,36 @@ const getUnassignedFaculty = async (req, res) => {
   }
 };
 
+const getFaculties = async (req, res) => {
+  try {
+    const faculties = await knex('faculties').select('*');
+    if (!faculties.length >= 1) return apiResponses.errorResponse(res, 'No faculties found', 404);
+
+    return apiResponses.successResponse(res, 'Found faculties', { faculties }, 200);
+  } catch (error) {
+    return apiResponses.errorResponse(res, error.message, 500);
+  }
+};
+
+const deleteFaculty = async (req, res) => {
+  try {
+    const facultyId = req.query.faculty;
+    if (facultyId.isNaN) return apiResponses.errorResponse(res, 'invalid faculty id.', 400);
+
+    let deletedFaculty = await knex('faculties').where('id', '=', facultyId).del().returning('*');
+    if (deletedFaculty.length !== 1) return apiResponses.errorResponse(res, 'something went wrong', 400);
+
+    [deletedFaculty] = deletedFaculty;
+    return apiResponses.successResponse(res, 'Deleted faculty.', { faculty: deletedFaculty }, 200);
+  } catch (error) {
+    return apiResponses.errorResponse(res, error.message, 500);
+  }
+};
+
 module.exports = {
   createFaculty,
   loginFaculty,
   getUnassignedFaculty,
+  getFaculties,
+  deleteFaculty,
 };
