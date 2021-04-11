@@ -69,7 +69,40 @@ const getDepartments = async (req, res) => {
   }
 };
 
+const deleteDepartment = async (req, res) => {
+  try {
+    const departmentId = req.query.department;
+    if (departmentId.isNaN) return apiResponses.errorResponse(res, 'Invalid id provided.', 400);
+
+    let deletedDepartment = await knex('departments').where({ id: departmentId }).del().returning('*');
+    if (deletedDepartment.length !== 1) return apiResponses.errorResponse(res, 'Could not delete department', 400);
+
+    [deletedDepartment] = deletedDepartment;
+    return apiResponses.successResponse(res, 'Successfully deleted department', { department: deletedDepartment }, 200);
+  } catch (error) {
+    return apiResponses.errorResponse(res, error.message, 500);
+  }
+};
+
+const editDepartment = async (req, res) => {
+  try {
+    const {
+      id, name, code, tutionFee,
+    } = req.body;
+
+    let updatedDepartment = await knex('departments').where('id', '=', id).update({ name, code, tution_fee: tutionFee }).returning('*');
+    if (updatedDepartment.length !== 1) return apiResponses.errorResponse(res, 'Could not update department', 400);
+
+    [updatedDepartment] = updatedDepartment;
+    return apiResponses.successResponse(res, 'successfully updated department', { department: updatedDepartment }, 200);
+  } catch (error) {
+    return apiResponses.errorResponse(res, error.message, 500);
+  }
+};
+
 module.exports = {
   createDepartment,
   getDepartments,
+  deleteDepartment,
+  editDepartment,
 };

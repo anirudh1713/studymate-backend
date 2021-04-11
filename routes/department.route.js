@@ -16,6 +16,15 @@ router
     validate(departmentValidation.createDepartment),
     departmentController.createDepartment,
   )
-  .get(departmentController.getDepartments);
+  .get(departmentController.getDepartments)
+  .delete(
+    auth(ROLES.admin),
+    departmentController.deleteDepartment,
+  )
+  .patch(
+    auth(ROLES.admin),
+    validate(departmentValidation.editDepartment),
+    departmentController.editDepartment,
+  );
 
 module.exports = router;

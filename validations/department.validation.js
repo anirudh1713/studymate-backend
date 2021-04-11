@@ -2,7 +2,7 @@ const Joi = require('joi');
 const { ValidationError } = require('joi');
 
 const knex = require('../db/db');
-const { duplicate } = require('../utils/db');
+const { duplicate, exists } = require('../utils/db');
 
 const createDepartment = Joi.object({
   name: Joi.string().required(),
@@ -10,7 +10,7 @@ const createDepartment = Joi.object({
   code: Joi.number().required().external(async (value) => {
     await duplicate('departments', 'code', value);
   }),
-  tutionFee: Joi.number().required(),
+  tutionFee: Joi.number().positive().required(),
   faculties: Joi.array().items(
     Joi.object({
       id: Joi.number().required(),
@@ -30,6 +30,18 @@ const createDepartment = Joi.object({
   }),
 });
 
+const editDepartment = Joi.object({
+  name: Joi.string().required(),
+  code: Joi.number().positive().required().external(async (value) => {
+    await duplicate('departments', 'code', value);
+  }),
+  tutionFee: Joi.number().positive().required(),
+  id: Joi.number().positive().required().external(async (value) => {
+    await exists('departments', 'id', value);
+  }),
+});
+
 module.exports = {
   createDepartment,
+  editDepartment,
 };
