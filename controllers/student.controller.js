@@ -8,6 +8,7 @@ const {
 } = require('../utils/auth');
 const ROLES = require('../ROLES');
 const knex = require('../db/db');
+const { truncate } = require('../db/db');
 
 const createStudent = async (req, res) => {
   try {
@@ -82,7 +83,34 @@ const loginStudent = async (req, res) => {
   }
 };
 
+const getStudents = async (req, res) => {
+  try {
+    const students = await knex('students').select('*');
+    if (!students.length >= 1) return apiResponses.errorResponse(res, 'No students found', 404);
+
+    return apiResponses.successResponse(res, 'Successfully fetched students', { students }, 200);
+  } catch (error) {
+    return apiResponses.errorResponse(res, error.message, 500);
+  }
+};
+
+const deleteStudents = async (req, res) => {
+  try {
+    const studentId = req.query.student;
+    if (studentId.isNaN) return apiResponses.errorResponse(res, 'Invalid student id.', 400);
+
+    let deletedStudent = await knex('students').where('id', '=', studentId).del().returning('*');
+    if (deletedStudent.length !== 1) return apiResponses.errorResponse(res, 'Something went wrong.', 400);
+
+    [deletedStudent] = deletedStudent;
+    return apiResponses.successResponse(res, 'Deleted student.', { student: deleteStudents }, 200);
+  } catch (error) {
+    return apiResponses.errorResponse(res, error.message, 500);
+  }
+};
 module.exports = {
   createStudent,
   loginStudent,
+  getStudents,
+  deleteStudents,
 };

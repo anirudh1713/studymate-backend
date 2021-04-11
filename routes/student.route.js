@@ -10,6 +10,14 @@ const ROLES = require('../ROLES');
 const router = express.Router();
 
 router
+  .route('/')
+  .get(studentController.getStudents)
+  .delete(
+    auth(ROLES.admin),
+    studentController.deleteStudents,
+  );
+
+router
   .route('/signup')
   .post(
     auth(ROLES.admin),

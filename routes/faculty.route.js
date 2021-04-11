@@ -12,7 +12,10 @@ const router = express.Router();
 router
   .route('/')
   .get(facultyController.getFaculties)
-  .delete(facultyController.deleteFaculty);
+  .delete(
+    auth(ROLES.admin),
+    facultyController.deleteFaculty,
+  );
 
 router
   .route('/signup')
