@@ -8,7 +8,6 @@ const {
 } = require('../utils/auth');
 const ROLES = require('../ROLES');
 const knex = require('../db/db');
-const { truncate } = require('../db/db');
 
 const createStudent = async (req, res) => {
   try {
