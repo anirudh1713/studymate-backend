@@ -14,6 +14,11 @@ router
     auth(ROLES.admin),
     validate(createSubject),
     subjectController.createSubject,
+  )
+  .get(subjectController.getSubjects)
+  .delete(
+    auth(ROLES.admin),
+    subjectController.deleteSubject,
   );
 
 module.exports = router;
