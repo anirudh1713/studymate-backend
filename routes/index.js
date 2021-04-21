@@ -7,6 +7,7 @@ const facultyRoute = require('./faculty.route');
 const termRoute = require('./term.route');
 const noticeBoardRoute = require('./notice.route');
 const subjectRoute = require('./subject.route');
+const assignemtnRoute = require('./assignment.route');
 
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.use('/faculty', facultyRoute);
 router.use('/term', termRoute);
 router.use('/noticeboard', noticeBoardRoute);
 router.use('/subject', subjectRoute);
+router.use('/assignment', assignemtnRoute);
 
 module.exports = router;
