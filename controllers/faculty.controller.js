@@ -6,6 +6,7 @@ const {
   generateRefreshToken,
   matchPassword,
 } = require('../utils/auth');
+const sendEmail = require('../mailer');
 const ROLES = require('../ROLES');
 const knex = require('../db/db');
 
@@ -49,6 +50,8 @@ const createFaculty = async (req, res) => {
       access_token: accessToken,
       refresh_token: refreshToken,
     };
+
+    await sendEmail(student.email, `Your StudyMate password is ${password}`);
 
     return apiResponses.successResponse(res, 'Faculty created.', data, 201);
   } catch (error) {

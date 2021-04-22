@@ -6,6 +6,7 @@ const {
   generateRefreshToken,
   matchPassword,
 } = require('../utils/auth');
+const sendEmail = require('../mailer');
 const ROLES = require('../ROLES');
 const knex = require('../db/db');
 
@@ -16,14 +17,14 @@ const createStudent = async (req, res) => {
     } = req.body;
 
     // TODO - auto generate password and send to student email.
-    let password = '112233';
-    password = await bcrypt.hash(password, 10);
+    const password = '112233';
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     let student = await knex('students').insert({
       name,
       email,
       phone_number: phoneNumber,
-      password,
+      password: hashedPassword,
       enrollment_number: enrollmentNumber,
       department_id: departmentId,
       term_id: termId,
@@ -44,6 +45,8 @@ const createStudent = async (req, res) => {
       access_token: accessToken,
       refresh_token: refreshToken,
     };
+
+    await sendEmail(student.email, `Your StudyMate password is ${password}`);
 
     return apiResponses.successResponse(res, 'Student created.', data, 201);
   } catch (error) {
