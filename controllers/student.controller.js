@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const generator = require('generate-password');
 
 const apiResponses = require('../utils/apiResponses');
 const {
@@ -16,8 +17,10 @@ const createStudent = async (req, res) => {
       name, email, phoneNumber, enrollmentNumber, departmentId, termId,
     } = req.body;
 
-    // TODO - auto generate password and send to student email.
-    const password = '112233';
+    const password = generator.generate({
+      length: 10,
+      numbers: true,
+    });
     const hashedPassword = await bcrypt.hash(password, 10);
 
     let student = await knex('students').insert({

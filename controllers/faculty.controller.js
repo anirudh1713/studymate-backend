@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const generator = require('generate-password');
 
 const apiResponses = require('../utils/apiResponses');
 const {
@@ -16,8 +17,10 @@ const createFaculty = async (req, res) => {
       name, email, phoneNumber, departmentId,
     } = req.body;
 
-    // TODO - auto generate password and send to faculty email
-    const password = '112233';
+    const password = generator.generate({
+      length: 10,
+      numbers: true,
+    });
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     const facultyToCreate = {
@@ -51,7 +54,7 @@ const createFaculty = async (req, res) => {
       refresh_token: refreshToken,
     };
 
-    await sendEmail(student.email, `Your StudyMate password is ${password}`);
+    await sendEmail(faculty.email, `Your StudyMate password is ${password}`);
 
     return apiResponses.successResponse(res, 'Faculty created.', data, 201);
   } catch (error) {
